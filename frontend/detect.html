@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}AgriVision AI — Disease Detection{% endblock %}
+{% block content %}
+<section class="detect-section">
+  <h1>Crop Disease Detection</h1>
+  <p class="subtitle">Upload a clear photo of a single leaf for best results.</p>
+
+  {% if not model_ready %}
+  <div class="alert alert-warning">
+    ⚠️ Required AI libraries aren't installed yet. Run <code>pip install -r requirements.txt</code>, then restart the server (see README.md).
+  </div>
+  {% endif %}
+
+  <div class="detect-grid">
+    <div class="upload-panel">
+      <div id="drop-zone" class="drop-zone">
+        <input type="file" id="file-input" accept="image/png, image/jpeg" hidden {% if not model_ready %}disabled{% endif %}>
+        <div id="drop-zone-placeholder">
+          <span class="upload-icon">⬆️</span>
+          <p>Drag &amp; drop a leaf image here, or click to browse</p>
+          <p class="hint">JPG or PNG, up to 10MB</p>
+        </div>
+        <img id="image-preview" class="image-preview hidden" alt="Preview of uploaded leaf">
+      </div>
+
+      <div class="button-row">
+        <button id="predict-btn" class="btn btn-primary" disabled {% if not model_ready %}disabled{% endif %}>Predict Disease</button>
+        <button id="reset-btn" class="btn btn-secondary hidden">Upload Another Image</button>
+      </div>
+
+      <div id="loading" class="loading hidden">
+        <div class="spinner"></div>
+        <span>Analyzing image…</span>
+      </div>
+
+      <div id="error-box" class="alert alert-error hidden"></div>
+    </div>
+
+    <div class="result-panel" id="result-panel">
+      <div class="result-placeholder" id="result-placeholder">
+        <p>Your prediction results will appear here.</p>
+      </div>
+
+      <div id="result-content" class="hidden">
+        <div class="result-header">
+          <h2 id="result-disease-name"></h2>
+          <span id="result-crop-badge" class="badge"></span>
+        </div>
+
+        <div class="confidence-bar-wrap">
+          <div class="confidence-label">
+            Confidence: <strong id="result-confidence"></strong>
+          </div>
+          <div class="confidence-bar-bg">
+            <div id="confidence-bar-fill" class="confidence-bar-fill"></div>
+          </div>
+          <p id="low-confidence-warning" class="low-confidence-warning hidden">
+            ⚠️ Low confidence — consider uploading a clearer, closer image of a single leaf.
+          </p>
+        </div>
+
+        <div id="healthy-banner" class="healthy-banner hidden">✅ Healthy / No Disease Detected</div>
+
+        <div id="disease-details" class="disease-details">
+          <div class="detail-block">
+            <h4>Cause</h4>
+            <p id="result-cause"></p>
+          </div>
+          <div class="detail-block">
+            <h4>Symptoms</h4>
+            <p id="result-symptoms"></p>
+          </div>
+          <div class="detail-block">
+            <h4>Prevention</h4>
+            <p id="result-prevention"></p>
+          </div>
+          <div class="detail-block">
+            <h4>Management / Cure</h4>
+            <p id="result-cure"></p>
+          </div>
+        </div>
+
+        <details class="top3-details">
+          <summary>Other possible matches</summary>
+          <ul id="top3-list"></ul>
+        </details>
+
+        <p class="disclaimer">This is a preliminary AI-based identification, not a professional agricultural diagnosis. Consult a local agricultural expert for confirmation before taking action.</p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

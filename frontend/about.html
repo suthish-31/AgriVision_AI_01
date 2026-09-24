@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}AgriVision AI — About{% endblock %}
+{% block content %}
+<section class="about-section">
+  <h1>About AgriVision AI</h1>
+
+  <p>AgriVision AI is a college mini project that demonstrates an end-to-end applied machine learning workflow: dataset preparation, transfer learning with a lightweight CNN, model evaluation, and deployment behind a simple web interface.</p>
+
+  <h2>How it works</h2>
+  <ol>
+    <li>The user uploads a photo of a crop leaf.</li>
+    <li>The image is preprocessed (resized, normalized) to match the model's training pipeline.</li>
+    <li>A pretrained MobileNetV2-based convolutional neural network (fine-tuned on the PlantVillage dataset by its original author, loaded directly from the Hugging Face Hub) classifies the leaf — no training happens on this machine.</li>
+    <li>The predicted class and confidence score are returned, along with structured information (cause, symptoms, prevention, cure) from a disease-information database.</li>
+  </ol>
+
+  <h2>Technology stack</h2>
+  <ul>
+    <li><strong>Model:</strong> <a href="https://huggingface.co/linkanjarad/mobilenet_v2_1.0_224-plant-disease-identification" target="_blank" rel="noopener">linkanjarad/mobilenet_v2_1.0_224-plant-disease-identification</a> — a pretrained MobileNetV2 model (PyTorch, via Hugging Face <code>transformers</code>), used directly for inference</li>
+    <li><strong>Backend:</strong> Flask (Python)</li>
+    <li><strong>Frontend:</strong> HTML, CSS, vanilla JavaScript</li>
+    <li><strong>Training data behind the pretrained model:</strong> PlantVillage / "New Plant Diseases Dataset" — the model author trained on this; this project does not re-download it or retrain</li>
+  </ul>
+
+  <h2>Limitations</h2>
+  <p>This tool provides a <strong>preliminary AI-based identification only</strong>. It is trained on a limited set of crops and diseases, was not validated against real field conditions by agricultural experts, and should never replace professional diagnosis. Always confirm with a qualified agronomist or extension officer before acting on the result.</p>
+</section>
+{% endblock %}

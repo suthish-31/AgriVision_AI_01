@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}AgriVision AI — Home{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero-text">
+    <h1>Intelligent Crop Disease Detection <br> &amp; Farmer Assistance</h1>
+    <p>Upload a photo of a crop leaf and get an instant, AI-powered preliminary identification of common diseases across Tomato, Potato, and Pepper crops — along with causes, symptoms, and prevention tips.</p>
+    <a href="{{ url_for('detect_page') }}" class="btn btn-primary">Try Disease Detection →</a>
+
+    {% if not model_ready %}
+    <div class="alert alert-warning">
+      ⚠️ Required AI libraries aren't installed yet. Run <code>pip install -r requirements.txt</code> — see <code>README.md</code> for setup steps before using detection.
+    </div>
+    {% endif %}
+  </div>
+  <div class="hero-visual">
+    <div class="leaf-card">🍅</div>
+    <div class="leaf-card">🥔</div>
+    <div class="leaf-card">🌶️</div>
+  </div>
+</section>
+
+<section class="feature-grid">
+  <div class="feature-card">
+    <h3>📷 Upload &amp; Analyze</h3>
+    <p>Simply upload a leaf image — the system analyzes it using a trained image classification model.</p>
+  </div>
+  <div class="feature-card">
+    <h3>🎯 Confidence Score</h3>
+    <p>Every prediction comes with a confidence percentage, so you know how certain the model is.</p>
+  </div>
+  <div class="feature-card">
+    <h3>📋 Actionable Info</h3>
+    <p>Get the disease's cause, symptoms, and practical prevention and management tips.</p>
+  </div>
+</section>
+{% endblock %}
